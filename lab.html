@@ -78,7 +78,7 @@
     .script-panel {
       background: transparent;
       border-left: 12px solid #db0000;
-      padding: 50px 60px 42px 48px;
+      padding: 40px 50px 40px 50px;
       color: #fafafa;
       font-weight: 400;
       font-size: 1.25em;
@@ -86,14 +86,17 @@
       box-shadow: 0 16px 48px #00000070;
       cursor: pointer;
       position: relative;
-      transform-origin: center center;
       transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.33s, z-index 0s;
       user-select: none;
       text-shadow: 0 0 6px #400000cc;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     .script-panel:hover {
       filter: brightness(1.04);
     }
+    /* Focused state layout */
     .script-panel.focused {
       transform: scale(1.25);
       box-shadow: 0 28px 64px 0 #db0000bc, 0 0 40px #db0000bd;
@@ -103,6 +106,17 @@
       cursor: default;
       user-select: text;
       text-shadow: 0 0 14px #ff0000cc;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    /* Responsive stack inside focused */
+    @media (max-width: 820px) {
+      .script-panel.focused {
+        flex-direction: column;
+        gap: 20px;
+        padding: 40px 36px 40px 36px;
+      }
     }
     .script-title {
       font-size: 2.3em;
@@ -110,15 +124,46 @@
       color: #db0000;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 22px;
-      text-shadow: 0 0 20px #ff0000cc;
+      margin: 0;
       user-select: text;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .script-desc {
+    .short-desc {
       font-size: 1.15em;
       line-height: 1.56;
+      color: #ccc;
+      user-select: none;
+    }
+    .detailed-content {
+      display: none;
+      flex: 1;
       color: #eee;
+      font-size: 1.15em;
+      line-height: 1.56;
       user-select: text;
+      gap: 14px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+    }
+    /* Show detailed content only on focused panel */
+    .script-panel.focused .short-desc {
+      display: none;
+    }
+    .script-panel.focused .detailed-content {
+      display: flex;
+    }
+    .poster-img {
+      width: 180px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 0 24px #db00009f;
+      flex-shrink: 0;
+    }
+    .script-text {
+      flex: 1;
     }
     .close-x {
       position: absolute;
@@ -136,14 +181,6 @@
       display: block;
       z-index: 150;
     }
-    @media (max-width: 800px) {
-      .container {padding: 40px 14px 36px 14px;}
-      .page-title {font-size: 1.7em; margin-bottom:42px;}
-      .script-panel {padding: 36px 24px 28px 24px; font-size: 1.12em;}
-      .script-title {font-size: 1.85em;}
-      .script-desc {font-size: 1em;}
-      .close-x {font-size: 2em; top: 16px; right: 18px;}
-    }
   </style>
 </head>
 <body>
@@ -154,17 +191,29 @@
       <section class="script-panel" tabindex="0">
         <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Maravar</div>
-        <div class="script-desc">[Placeholder] A quick teaser or logline for Maravar goes here! Paint a picture with just a few cinematic words.</div>
+        <div class="short-desc">A quick teaser or logline for Maravar...</div>
+        <div class="detailed-content">
+          <img src="assets/poster_placeholder.jpg" alt="Maravar Poster" class="poster-img" />
+          <div class="script-text">[Detailed synopsis placeholder] This is where the full storyline, themes, or highlight points related to Maravar will be showcased. Replace this text with the real synopsis when ready.</div>
+        </div>
       </section>
       <section class="script-panel" tabindex="0">
         <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Case 10</div>
-        <div class="script-desc">[Placeholder] A brief, intriguing concept for Case 10. Set your mood, your mystery, or your wild twist in a single line!</div>
+        <div class="short-desc">A brief intrigue-filled teaser for Case 10...</div>
+        <div class="detailed-content">
+          <img src="assets/poster_placeholder.jpg" alt="Case 10 Poster" class="poster-img" />
+          <div class="script-text">[Detailed synopsis placeholder] This is where the full storyline, themes, or highlight points related to Case 10 will be showcased. Replace this text with the real synopsis when ready.</div>
+        </div>
       </section>
       <section class="script-panel" tabindex="0">
         <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Abort Reboot Love</div>
-        <div class="script-desc">[Placeholder] Give us a taste of romance, big ideas, and emotional tension—whatever makes this script a must-watch.</div>
+        <div class="short-desc">A short hint of romance and emotion...</div>
+        <div class="detailed-content">
+          <img src="assets/poster_placeholder.jpg" alt="Abort Reboot Love Poster" class="poster-img" />
+          <div class="script-text">[Detailed synopsis placeholder] This is where the full storyline, themes, or highlight points related to Abort Reboot Love will be showcased. Replace this text with the real synopsis when ready.</div>
+        </div>
       </section>
     </div>
     <div class="overlay" id="overlay"></div>
@@ -190,7 +239,6 @@
         container.classList.remove('blurred');
         overlay.classList.remove('active');
       });
-
       panel.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
