@@ -14,31 +14,35 @@
       min-height: 100vh;
     }
     .container {
-      max-width: 940px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 54px 18px 44px 18px;
+      padding: 60px 20px 50px 20px;
+      position: relative;
     }
     .page-title {
       text-align: center;
-      font-size: 2.2em;
+      font-size: 2.8em;
       color: #db0000;
       font-weight: 900;
-      margin-bottom: 50px;
-      letter-spacing: 0.04em;
+      margin-bottom: 60px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px #db0000bb;
     }
     .back-btn {
       display: inline-block;
-      margin-bottom: 36px;
+      margin-bottom: 42px;
       background: transparent;
       color: #db0000;
-      border: 2.3px solid #db0000;
-      border-radius: 22px;
-      padding: 9px 26px;
-      font-size: 1em;
+      border: 2px solid #db0000;
+      border-radius: 24px;
+      padding: 10px 28px;
+      font-size: 1.1em;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.16s, color 0.19s;
+      transition: background 0.2s, color 0.25s;
+      user-select: none;
     }
     .back-btn:hover {
       background: #db0000;
@@ -47,132 +51,154 @@
     .scripts-list {
       display: flex;
       flex-direction: column;
-      gap: 44px;
+      gap: 58px;
       position: relative;
-      transition: filter 0.44s;
+      transition: filter 0.5s ease;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(19, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
     }
     .script-panel {
-      background: #1a1a1a;
-      border-left: 8px solid #db0000;
-      border-radius: 16px 36px 36px 16px;
-      box-shadow: 0 8px 48px #000a;
-      padding: 44px 44px 34px 36px;
-      margin: 0;
-      cursor: pointer;
-      transition: transform 0.33s cubic-bezier(.22,1,.36,1), box-shadow 0.3s, z-index 0s;
-      position: relative;
-      z-index: 2;
-      overflow: visible;
-    }
-    .script-title {
-      font-size: 2em;
-      color: #db0000;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      margin-bottom: 19px;
-    }
-    .script-desc {
+      background: transparent;
+      border-left: 12px solid #db0000;
+      padding: 50px 60px 42px 48px;
       color: #fafafa;
-      font-size: 1.16em;
-      line-height: 1.54;
       font-weight: 400;
-      letter-spacing: 0.01em;
-      transition: color 0.2s;
-      opacity: 0.85;
-    }
-    /* 3D focus effect styles */
-    .scripts-list.blurred .script-panel:not(.focused) {
-      filter: blur(6px) brightness(0.65);
-      pointer-events: none;
+      font-size: 1.25em;
+      border-radius: 18px 36px 36px 18px;
+      box-shadow: 0 16px 48px #00000070;
+      cursor: pointer;
+      position: relative;
+      transform-origin: center center;
+      transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.33s, z-index 0s;
       user-select: none;
-      opacity: 0.7;
+      text-shadow: 0 0 6px #400000cc;
+    }
+    .script-panel:hover {
+      filter: brightness(1.04);
     }
     .script-panel.focused {
-      transform: scale(1.13) rotateZ(-1.5deg);
-      box-shadow: 0 12px 56px 0 #db0000d4, 0 0px 0px #000;
-      background: #1a1a1ae9;
+      transform: scale(1.25);
+      box-shadow: 0 28px 64px 0 #db0000bc, 0 0 40px #db0000bd;
       z-index: 99;
-      border-left: 12px solid #db0000;
+      background: rgba(27,0,0, 0.87);
+      border-left-color: #ff2222;
       cursor: default;
+      user-select: text;
+      text-shadow: 0 0 14px #ff0000cc;
+    }
+    .script-title {
+      font-size: 2.3em;
+      font-weight: 900;
+      color: #db0000;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      text-shadow: 0 0 20px #ff0000cc;
+      user-select: text;
+    }
+    .script-desc {
+      font-size: 1.15em;
+      line-height: 1.56;
+      color: #eee;
+      user-select: text;
     }
     .close-x {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      font-size: 2.5em;
+      font-weight: 900;
+      color: #ff0000bb;
+      cursor: pointer;
       display: none;
+      user-select: none;
+      text-shadow: 0 0 12px #ff2222dd;
     }
     .script-panel.focused .close-x {
       display: block;
-      position: absolute;
-      top: 16px;
-      right: 22px;
-      font-size: 2em;
-      color: #fff;
-      background: #db0000;
-      border-radius: 30%;
-      width: 38px; height: 38px;
-      text-align: center;
-      line-height: 38px;
-      cursor: pointer;
-      box-shadow: 0 2px 6px #db000080;
-      z-index: 120;
-      border: none;
+      z-index: 150;
     }
-    @media (max-width: 700px) {
-      .container {padding: 24px 2vw;}
-      .page-title {font-size: 1.23em;}
-      .script-panel {padding: 26px 14px 20px 13px;}
-      .script-title {font-size: 1.22em;}
+    @media (max-width: 800px) {
+      .container {padding: 40px 14px 36px 14px;}
+      .page-title {font-size: 1.7em; margin-bottom:42px;}
+      .script-panel {padding: 36px 24px 28px 24px; font-size: 1.12em;}
+      .script-title {font-size: 1.85em;}
+      .script-desc {font-size: 1em;}
+      .close-x {font-size: 2em; top: 16px; right: 18px;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="index.html" class="back-btn">&larr; Back to Home</a>
+    <a href="index.html" class="back-btn" tabindex="0">&larr; Back to Home</a>
     <div class="page-title">What’s Brewing in His Lab?</div>
     <div class="scripts-list" id="scripts-list">
-      <!-- SCRIPT 1 -->
       <section class="script-panel" tabindex="0">
-        <span class="close-x" title="Close">&times;</span>
+        <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Maravar</div>
         <div class="script-desc">[Placeholder] A quick teaser or logline for Maravar goes here! Paint a picture with just a few cinematic words.</div>
       </section>
-      <!-- SCRIPT 2 -->
       <section class="script-panel" tabindex="0">
-        <span class="close-x" title="Close">&times;</span>
+        <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Case 10</div>
         <div class="script-desc">[Placeholder] A brief, intriguing concept for Case 10. Set your mood, your mystery, or your wild twist in a single line!</div>
       </section>
-      <!-- SCRIPT 3 -->
       <section class="script-panel" tabindex="0">
-        <span class="close-x" title="Close">&times;</span>
+        <span class="close-x" title="Close" aria-label="Close">&times;</span>
         <div class="script-title">Abort Reboot Love</div>
         <div class="script-desc">[Placeholder] Give us a taste of romance, big ideas, and emotional tension—whatever makes this script a must-watch.</div>
       </section>
     </div>
+    <div class="overlay" id="overlay"></div>
   </div>
   <script>
-    // Interactive 3D spotlight effect
     const panels = document.querySelectorAll('.script-panel');
+    const overlay = document.getElementById('overlay');
     const container = document.getElementById('scripts-list');
+
     panels.forEach(panel => {
-      panel.onclick = function(e) {
+      const closeBtn = panel.querySelector('.close-x');
+      panel.addEventListener('click', (e) => {
         if (!panel.classList.contains('focused')) {
           panels.forEach(p => p.classList.remove('focused'));
           panel.classList.add('focused');
-          container.classList.add('blurred');
+          container.style.filter = 'blur(8px) brightness(0.55)';
+          overlay.classList.add('active');
         }
-      };
-      // Close logic
-      panel.querySelector('.close-x').onclick = function(e) {
+      });
+      closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         panel.classList.remove('focused');
-        container.classList.remove('blurred');
-      };
+        container.style.filter = 'none';
+        overlay.classList.remove('active');
+      });
+
+      panel.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          panel.click();
+        }
+      });
     });
-    // Unfocus by clicking outside
-    document.addEventListener('mousedown', function(e) {
+
+    overlay.addEventListener('click', () => {
       const focused = document.querySelector('.script-panel.focused');
-      if (focused && !focused.contains(e.target)) {
+      if (focused) {
         focused.classList.remove('focused');
-        container.classList.remove('blurred');
+        container.style.filter = 'none';
+        overlay.classList.remove('active');
       }
     });
   </script>
