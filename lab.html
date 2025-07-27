@@ -69,6 +69,12 @@
       opacity: 1;
       pointer-events: auto;
     }
+    .scripts-list.blurred .script-panel:not(.focused) {
+      filter: blur(6px) brightness(0.5);
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.6;
+    }
     .script-panel {
       background: transparent;
       border-left: 12px solid #db0000;
@@ -174,14 +180,14 @@
         if (!panel.classList.contains('focused')) {
           panels.forEach(p => p.classList.remove('focused'));
           panel.classList.add('focused');
-          container.style.filter = 'blur(8px) brightness(0.55)';
+          container.classList.add('blurred');
           overlay.classList.add('active');
         }
       });
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         panel.classList.remove('focused');
-        container.style.filter = 'none';
+        container.classList.remove('blurred');
         overlay.classList.remove('active');
       });
 
@@ -197,7 +203,7 @@
       const focused = document.querySelector('.script-panel.focused');
       if (focused) {
         focused.classList.remove('focused');
-        container.style.filter = 'none';
+        container.classList.remove('blurred');
         overlay.classList.remove('active');
       }
     });
