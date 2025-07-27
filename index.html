@@ -8,79 +8,62 @@
     body {
       background: #0a0a0a;
       color: #fafafa;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
     }
     header {
-      background: #0a0a0a;
-      padding: 50px 0 28px 0;
-      text-align: center;
+      margin-top: 60px;
+      margin-bottom: 40px;
     }
     header h1 {
-      margin: 0;
-      font-size: 2.5em;
-      color: #fafafa;
-      letter-spacing: 0.05em;
+      color: #db0000;
+      font-size: 2.8em;
       font-weight: 900;
-      border-bottom: 4px solid #db0000;
-      display: inline-block;
-      padding-bottom: 8px;
-    }
-    .cards {
-      display: flex;
-      justify-content: center;
-      gap: 34px;
-      flex-wrap: wrap;
-      padding: 40px 15vw 60px 15vw;
     }
     .card {
       background: #ffffff;
       color: #141414;
       border-radius: 18px;
-      width: 260px;
-      box-shadow: 0 4px 34px #00000060;
-      transition: transform 0.19s, box-shadow 0.19s, border 0.12s;
+      width: 300px;
+      padding: 24px 20px;
+      box-shadow: 0 4px 34px #00000090;
       cursor: pointer;
-      border: 2.5px solid transparent;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      transition: transform 0.2s;
+      text-align: center;
+      user-select: none;
     }
     .card:hover {
-      transform: scale(1.04) translateY(-10px);
-      box-shadow: 0 8px 40px #db000090;
-      border: 2.5px solid #db0000;
-    }
-    .card img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 18px 18px 0 0;
-      background: #222;
-      filter: grayscale(1) contrast(1.06);
-    }
-    .card-content {
-      padding: 22px 18px 18px 18px;
-      display: flex;
-      flex-direction: column;
-      min-height: 160px;
-      flex: 1;
+      transform: scale(1.05);
     }
     .card-title {
-      font-size: 1.15em;
+      font-size: 1.4em;
       font-weight: 800;
       color: #db0000;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-      letter-spacing: 0.01em;
+      margin-bottom: 12px;
     }
     .card-desc {
-      font-size: 1em;
+      font-size: 1.05em;
       color: #181818;
-      margin-bottom: 16px;
-      line-height: 1.35;
     }
-    .tag {
-      align-self: flex-start;
-      color: #fff;
-      background: #db0000;
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mindflix: Savan’s Originals</h1>
+  </header>
+
+  <main>
+    <div class="card" onclick="alert('Card Clicked! Replace with navigation.')">
+      <div class="card-title">What's Brewing in His Lab?</div>
+      <div class="card-desc">
+        A heady blend of genres, captivating tales, laughter, love, and cerebral twists.
+      </div>
+    </div>
+  </main>
+</body>
+</html>
