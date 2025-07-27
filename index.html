@@ -1,198 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savan's Brain Dump</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mindflix: Savan’s Originals</title>
   <style>
     body {
-      background: #100e1b;
-      color: #f7f7fa;
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      margin: 0;
-      min-height: 100vh;
+      background: #0a0a0a;
+      color: #fafafa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0; padding: 0;
     }
     header {
-      background: linear-gradient(90deg, #231942 60%, #5e548e 100%);
-      text-align: left;
-      padding: 38px 32px 21px 48px;
-      border-bottom-left-radius: 70px;
-      box-shadow: 0 4px 24px 2px #3d396340;
+      background: #0a0a0a;
+      padding: 50px 0 28px 0;
+      text-align: center;
     }
     header h1 {
       margin: 0;
-      font-size: 2.6em;
-      background: linear-gradient(90deg, #f7b801 50%, #38b000 100%);
-      color: transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
+      font-size: 2.5em;
+      color: #fafafa;
+      letter-spacing: 0.05em;
       font-weight: 900;
-      letter-spacing: 0.02em;
+      border-bottom: 4px solid #db0000;
+      display: inline-block;
+      padding-bottom: 8px;
     }
-    .carousel-section {
-      padding: 32px 0 44px 0;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .carousel-title {
-      margin-left: 38px;
-      font-size: 1.22em;
-      font-weight: 700;
-      color: #9ef01a;
-    }
-    .carousel-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 14px 0 24px 0;
-      margin: 0 0 0 16px;
-      cursor: grab;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    .carousel-container::-webkit-scrollbar {
-      display: none;
-      height: 0;
-      width: 0;
-      background: transparent;
-    }
-    .card-row {
+    .cards {
       display: flex;
-      gap: 1.7em;
-      padding-left: 16px;
-      padding-right: 100px;
-      min-width: 600px;
-      user-select: none;
+      justify-content: center;
+      gap: 34px;
+      flex-wrap: wrap;
+      padding: 40px 15vw 60px 15vw;
     }
-    .show-card {
-      background: linear-gradient(135deg, #201c33 65%, #9145b6 100%);
-      border-radius: 16px;
-      box-shadow: 0 4px 28px #17142f40;
-      width: 250px;
-      min-width: 250px;
-      min-height: 320px;
-      max-width: 265px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transition:
-        transform 0.21s cubic-bezier(.21, 1.02, .73, 1.01),
-        box-shadow 0.14s;
+    .card {
+      background: #ffffff;
+      color: #141414;
+      border-radius: 18px;
+      width: 260px;
+      box-shadow: 0 4px 34px #00000060;
+      transition: transform 0.19s, box-shadow 0.19s, border 0.12s;
       cursor: pointer;
-    }
-    .show-card:hover {
-      transform: scale(1.07) translateY(-6px);
-      box-shadow: 0 10px 38px #38b00077;
-      border: 2.3px solid #9ef01a;
-      z-index: 2;
-    }
-    .show-card img {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      background: #100e1b;
-      filter: brightness(0.85) contrast(1.08);
-    }
-    .show-card-content {
-      padding: 18px 15px 13px 15px;
+      border: 2.5px solid transparent;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
     }
-    .show-title {
-      font-size: 1.13em;
-      font-weight: 900;
-      color: #f7b801;
-      margin-bottom: 10px;
+    .card:hover {
+      transform: scale(1.04) translateY(-10px);
+      box-shadow: 0 8px 40px #db000090;
+      border: 2.5px solid #db0000;
     }
-    .show-desc {
-      color: #e9ecef;
+    .card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 18px 18px 0 0;
+      background: #222;
+      filter: grayscale(1) contrast(1.06);
+    }
+    .card-content {
+      padding: 22px 18px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 160px;
+      flex: 1;
+    }
+    .card-title {
+      font-size: 1.15em;
+      font-weight: 800;
+      color: #db0000;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+      letter-spacing: 0.01em;
+    }
+    .card-desc {
       font-size: 1em;
-      margin-bottom: 12px;
-      min-height: 52px;
+      color: #181818;
+      margin-bottom: 16px;
+      line-height: 1.35;
     }
     .tag {
-      display: inline-block;
-      padding: 6px 18px;
-      background: linear-gradient(90deg, #38b000, #f7b801 84%);
-      border-radius: 22px;
-      color: #231942;
-      font-size: 0.85em;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-top: 6px;
-    }
-    footer {
-      text-align: center;
-      padding: 17px 0 8px 0;
-      background: #1c1832;
-      color: #f7b801;
-      font-weight: 700;
-      font-size: 1em;
-      border-top: 1.5px solid #282948;
-      margin-top: 28px;
-    }
-    @media (max-width: 730px) {
-      .card-row {padding-right: 35px;}
-      .show-card {width: 86vw; min-width: 200px; max-width: 97vw;}
-      header {padding-left: 15px;}
-      .carousel-title {margin-left: 8px;}
-    }
-  </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const carousel = document.querySelector('.carousel-container');
-      let isDown = false, startX, scrollLeft;
-      if (carousel) {
-        carousel.addEventListener('mousedown', (e) => {
-          isDown = true;
-          startX = e.pageX - carousel.offsetLeft;
-          scrollLeft = carousel.scrollLeft;
-        });
-        carousel.addEventListener('mouseleave', () => { isDown = false; });
-        carousel.addEventListener('mouseup', () => { isDown = false; });
-        carousel.addEventListener('mousemove', (e) => {
-          if(!isDown) return;
-          e.preventDefault();
-          const x = e.pageX - carousel.offsetLeft;
-          const walk = (x - startX) * 1.05;
-          carousel.scrollLeft = scrollLeft - walk;
-        });
-      }
-    });
-  </script>
-</head>
-<body>
-  <header>
-    <h1>Savan's Brain Dump</h1>
-  </header>
-
-  <main>
-    <div class="carousel-section">
-      <div class="carousel-title">Now Streaming</div>
-      <div class="carousel-container">
-        <div class="card-row">
-
-          <!-- Card 1: What's brewing in his lab? -->
-          <div class="show-card" onclick="window.location='lab.html'">
-            <img src="cinematic_bw_portrait.png" alt="Cinematic Portrait">
-            <div class="show-card-content">
-              <div class="show-title">What's brewing in his lab?</div>
-              <div class="show-desc">
-                A heady blend of genres, captivating tales, laughter, love, and cerebral twists—discover what’s simmering in Savan’s creative cauldron!
-              </div>
-              <div class="tag">ORIGINALS</div>
-            </div>
-          </div>
-
-          <!-- Add your additional cards as before. ... -->
-
-        </div>
-      </div>
-    </div>
-  </main>
-  <footer>
-    &copy; 2025 Savan's Brain Dump
-  </footer>
-</body>
-</html>
-
+      align-self: flex-start;
+      color: #fff;
+      background: #db0000;
