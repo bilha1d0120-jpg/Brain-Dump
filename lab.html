@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What’s Brewing in His Lab?</title>
+  <style>
+    body {
+      background: #131313;
+      color: #fff;
+      font-family: Arial, 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 54px 18px 44px 18px;
+    }
+    .page-title {
+      text-align: center;
+      font-size: 2.2em;
+      color: #db0000;
+      font-weight: 900;
+      margin-bottom: 50px;
+      letter-spacing: 0.04em;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 36px;
+      background: transparent;
+      color: #db0000;
+      border: 2.3px solid #db0000;
+      border-radius: 22px;
+      padding: 9px 26px;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.16s, color 0.19s;
+    }
+    .back-btn:hover {
+      background: #db0000;
+      color: #fff;
+    }
+    .scripts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
+      position: relative;
+      transition: filter 0.44s;
+    }
+    .script-panel {
+      background: #1a1a1a;
+      border-left: 8px solid #db0000;
+      border-radius: 16px 36px 36px 16px;
+      box-shadow: 0 8px 48px #000a;
+      padding: 44px 44px 34px 36px;
+      margin: 0;
+      cursor: pointer;
+      transition: transform 0.33s cubic-bezier(.22,1,.36,1), box-shadow 0.3s, z-index 0s;
+      position: relative;
+      z-index: 2;
+      overflow: visible;
+    }
+    .script-title {
+      font-size: 2em;
+      color: #db0000;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin-bottom: 19px;
+    }
+    .script-desc {
+      color: #fafafa;
+      font-size: 1.16em;
+      line-height: 1.54;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+      opacity: 0.85;
+    }
+    /* 3D focus effect styles */
+    .scripts-list.blurred .script-panel:not(.focused) {
+      filter: blur(6px) brightness(0.65);
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.7;
+    }
+    .script-panel.focused {
+      transform: scale(1.13) rotateZ(-1.5deg);
+      box-shadow: 0 12px 56px 0 #db0000d4, 0 0px 0px #000;
+      background: #1a1a1ae9;
+      z-index: 99;
+      border-left: 12px solid #db0000;
+      cursor: default;
+    }
+    .close-x {
+      display: none;
+    }
+    .script-panel.focused .close-x {
+      display: block;
+      position: absolute;
+      top: 16px;
+      right: 22px;
+      font-size: 2em;
+      color: #fff;
+      background: #db0000;
+      border-radius: 30%;
+      width: 38px; height: 38px;
+      text-align: center;
+      line-height: 38px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px #db000080;
+      z-index: 120;
+      border: none;
+    }
+    @media (max-width: 700px) {
+      .container {padding: 24px 2vw;}
+      .page-title {font-size: 1.23em;}
+      .script-panel {padding: 26px 14px 20px 13px;}
+      .script-title {font-size: 1.22em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-btn">&larr; Back to Home</a>
+    <div class="page-title">What’s Brewing in His Lab?</div>
+    <div class="scripts-list" id="scripts-list">
+      <!-- SCRIPT 1 -->
+      <section class="script-panel" tabindex="0">
+        <span class="close-x" title="Close">&times;</span>
+        <div class="script-title">Maravar</div>
+        <div class="script-desc">[Placeholder] A quick teaser or logline for Maravar goes here! Paint a picture with just a few cinematic words.</div>
+      </section>
+      <!-- SCRIPT 2 -->
+      <section class="script-panel" tabindex="0">
+        <span class="close-x" title="Close">&times;</span>
+        <div class="script-title">Case 10</div>
+        <div class="script-desc">[Placeholder] A brief, intriguing concept for Case 10. Set your mood, your mystery, or your wild twist in a single line!</div>
+      </section>
+      <!-- SCRIPT 3 -->
+      <section class="script-panel" tabindex="0">
+        <span class="close-x" title="Close">&times;</span>
+        <div class="script-title">Abort Reboot Love</div>
+        <div class="script-desc">[Placeholder] Give us a taste of romance, big ideas, and emotional tension—whatever makes this script a must-watch.</div>
+      </section>
+    </div>
+  </div>
+  <script>
+    // Interactive 3D spotlight effect
+    const panels = document.querySelectorAll('.script-panel');
+    const container = document.getElementById('scripts-list');
+    panels.forEach(panel => {
+      panel.onclick = function(e) {
+        if (!panel.classList.contains('focused')) {
+          panels.forEach(p => p.classList.remove('focused'));
+          panel.classList.add('focused');
+          container.classList.add('blurred');
+        }
+      };
+      // Close logic
+      panel.querySelector('.close-x').onclick = function(e) {
+        e.stopPropagation();
+        panel.classList.remove('focused');
+        container.classList.remove('blurred');
+      };
+    });
+    // Unfocus by clicking outside
+    document.addEventListener('mousedown', function(e) {
+      const focused = document.querySelector('.script-panel.focused');
+      if (focused && !focused.contains(e.target)) {
+        focused.classList.remove('focused');
+        container.classList.remove('blurred');
+      }
+    });
+  </script>
+</body>
+</html>
