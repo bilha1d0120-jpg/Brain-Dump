@@ -37,12 +37,14 @@
       display: flex;
       justify-content: center;
       gap: 32px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
       padding: 40px 4vw 60px 4vw;
       z-index: 1;
       position: relative;
     }
     .card {
+      flex: 0 0 auto;
       background: #fff;
       color: #181818;
       border-radius: 18px;
@@ -66,7 +68,7 @@
       height: 220px;
       background: #222;
       border-radius: 18px 18px 0 0;
-      object-fit: cover;    /* best for streaming-style fit */
+      object-fit: cover;
       display: block;
     }
     .card-content {
@@ -103,13 +105,12 @@
       letter-spacing: 0.035em;
     }
     @media (max-width: 900px) {
-      .cards {padding: 24px 2vw;}
-      .card {width: 93vw; min-width: 0;}
+      .cards {padding: 24px 2vw; flex-wrap: nowrap; overflow-x: auto;}
+      .card {width: 280px; min-width: 280px;}
     }
     @media (max-width: 600px) {
-      .cards {flex-direction: column; align-items: center; gap: 18px;}
-      header {padding: 36px 0 20px 0;}
-      header h1 {font-size: 1.3em;}
+      .cards {flex-wrap: nowrap; overflow-x: auto;}
+      .card {width: 260px; min-width: 260px;}
     }
   </style>
 </head>
