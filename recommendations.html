@@ -38,6 +38,7 @@
       box-shadow: 0 2px 28px #000c;
       cursor: pointer;
       transition: box-shadow 0.17s, transform 0.20s;
+      text-decoration: none;
     }
     .rec-tile:hover {
       box-shadow: 0 6px 34px #db000099, 0 0 44px #db000077;
@@ -51,6 +52,7 @@
       border-radius: 16px;
       filter: grayscale(0.13) contrast(1.09);
       transition: filter 0.18s;
+      background: #231a1a;
     }
     .rec-tile:hover .rec-poster {
       filter: brightness(1.06) grayscale(0) contrast(1.17);
@@ -75,67 +77,43 @@
       color: #fff;
     }
     @media (max-width: 760px) {
-      .collage {
-        grid-template-columns: 1fr;
-      }
-      .page-title {
-        font-size: 1.3em;
-        padding: 18px 0 16px;
-      }
-      .rec-caption {
-        font-size: 0.96em;
-        padding: 17px 10px 10px 13px;
-      }
+      .collage { grid-template-columns: 1fr; }
+      .page-title { font-size: 1.3em; padding: 18px 0 16px; }
+      .rec-caption { font-size: 0.96em; padding: 17px 10px 10px 13px; }
     }
   </style>
 </head>
 <body>
-<div class="page-title">His Recommendations</div>
-<div class="collage" id="collageGrid"></div>
-<script>
-  // Add as many movies/interviews as you want!
-  const recommendations = [
-    { 
-      title: "Lokesh Kanagaraj Interview", 
-      youtube: "https://www.youtube.com/watch?v=m78p7HxN68w" 
-    },
-    { 
-      title: "Padayappa", 
-      poster: "assets/padayappa_poster.jpg" 
-    }
-    // Add more: {title, poster} or {title, youtube}
-  ];
+  <div class="page-title">His Recommendations</div>
+  <div class="collage" id="collageGrid"></div>
+  <script>
+    // Add your recommendations here
+    const recommendations = [
+      {
+        type: "movie",
+        title: "Padayappa",
+        poster: "assets/padayappa_poster.jpg", // Replace with actual poster in your assets folder
+        link: "https://www.primevideo.com/detail/Padaiyappa/0K1WHBU27GQBCIXOC33INK26B4"
+      }
+      // Add more...
+    ];
 
-  // Extract YouTube video ID to get high quality thumbnail
-  function getYoutubeThumbnail(url) {
-    const idMatch = url.match(/[?&]v=([^&]+)/);
-    return idMatch ? `https://i.ytimg.com/vi/${idMatch[1]}/hqdefault.jpg` : '';
-  }
+    const placeholderPoster = "https://via.placeholder.com/300x450?text=No+Poster";
 
-  const collage = document.getElementById('collageGrid');
+    const collage = document.getElementById('collageGrid');
 
-  recommendations.forEach(rec => {
-    const tile = document.createElement('a');
-    tile.className = 'rec-tile';
-    tile.target = '_blank';
-    tile.rel = 'noopener noreferrer';
-
-    if (rec.youtube) {
-      tile.href = rec.youtube;
+    recommendations.forEach(rec => {
+      const tile = document.createElement('a');
+      tile.className = 'rec-tile';
+      tile.target = '_blank';
+      tile.rel = 'noopener noreferrer';
+      tile.href = rec.link || "#";
       tile.innerHTML = `
-        <img class="rec-poster" src="${getYoutubeThumbnail(rec.youtube)}" alt="${rec.title} Thumbnail" />
+        <img class="rec-poster" src="${rec.poster || placeholderPoster}" alt="${rec.title} Poster" />
         <div class="rec-caption">${rec.title}</div>
       `;
-    } else if (rec.poster) {
-      tile.href = '#';
-      tile.innerHTML = `
-        <img class="rec-poster" src="${rec.poster}" alt="${rec.title} Poster" />
-        <div class="rec-caption">${rec.title}</div>
-      `;
-    }
-
-    collage.appendChild(tile);
-  });
-</script>
+      collage.appendChild(tile);
+    });
+  </script>
 </body>
 </html>
