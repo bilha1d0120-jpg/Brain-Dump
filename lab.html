@@ -3,245 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>What’s Brewing in His Lab - Split Screen</title>
+  <title>What’s Brewing in His Lab?</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, 'Segoe UI', sans-serif;
-      background-color: #131313;
+      background: #131313;
       color: #fff;
-      display: flex;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
     }
+    .container {
+      display: flex;
+      height: 100vh;
+    }
     .sidebar {
-      width: 300px;
+      width: 320px;
       background-color: #191919;
-      overflow-y: auto;
-      box-shadow: inset -4px 0 4px -2px rgba(219, 0, 0, 0.7);
       border-right: 2px solid #db0000;
-      padding: 20px 10px;
-      box-sizing: border-box;
+      box-shadow: inset -4px 0 8px -4px #db0000aa;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
+      padding: 0 0 12px 0;
     }
     .sidebar h2 {
       color: #db0000;
-      font-size: 1.9em;
+      font-size: 2em;
       font-weight: 900;
       text-transform: uppercase;
-      margin: 0 0 10px 10px;
-      letter-spacing: 0.05em;
+      margin: 35px 0 18px 30px;
+      letter-spacing: 0.04em;
       user-select: none;
     }
-    .movie-list {
+    .script-list {
       flex: 1;
       overflow-y: auto;
-      margin-top: 10px;
     }
-    .movie-item {
-      padding: 12px 18px;
-      margin-bottom: 6px;
-      border-left: 4px solid transparent;
-      cursor: pointer;
-      transition: background-color 0.18s, border-left 0.18s;
-      user-select: none;
+    .script-item {
+      padding: 18px 28px;
+      margin: 6px 0 0 0;
       font-weight: 600;
-      font-size: 1.1em;
-      color: #eee;
-      border-radius: 3px 0 0 3px;
+      font-size: 1.07em;
+      border-left: 4px solid transparent;
+      color: #efefef;
+      background: none;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      border-radius: 0 7px 7px 0;
+      transition: background 0.13s, border-left 0.13s, color 0.13s;
+      outline: none;
+      user-select: none;
     }
-    .movie-item:hover,
-    .movie-item.selected {
-      background-color: #db000040;
+    .script-item.selected,
+    .script-item:hover {
+      background: #232026d6;
+      color: #ff2222;
       border-left: 4px solid #db0000;
-      color: #ff0000;
     }
-    .content {
+    .main-content {
       flex: 1;
-      padding: 40px 48px;
-      overflow-y: auto;
-      box-sizing: border-box;
+      padding: 44px 7vw 40px 7vw;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      background: #131313;
+      overflow-y: auto;
     }
-    .content h1 {
-      color: #db0000;
-      font-size: 2.4em;
-      font-weight: 900;
-      margin-bottom: 28px;
-      text-transform: uppercase;
-      user-select: none;
-      text-align: center;
-    }
-    .poster {
-      width: 280px;
-      height: 420px;
+    .script-poster {
+      width: 320px;
+      max-width: 96%;
+      height: auto;
       border-radius: 16px;
-      box-shadow: 0 0 36px #db000090;
-      object-fit: cover;
-      margin-bottom: 24px;
+      box-shadow: 0 8px 32px #000a;
+      background: #221a1a;
+      margin-bottom: 18px;
+      object-fit: contain;
     }
-    .description {
-      max-width: 680px;
-      font-size: 1.15em;
-      line-height: 1.48;
-      color: #f0f0f0;
-      text-align: justify;
-      user-select: text;
+    .script-title {
+      color: #db0000;
+      font-size: 2.23em;
+      font-weight: 900;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 12px #db0000bb;
+      line-height: 1.14;
+      text-align: left;
+      word-break: break-word;
+      text-transform: uppercase;
     }
-    @media (max-width: 920px) {
-      body {
-        flex-direction: column;
-      }
+    .script-genre {
+      font-weight: 700;
+      color: #fbbf24;
+      font-size: 1em;
+      margin-bottom: 16px;
+      letter-spacing: 0.03em;
+      word-break: break-word;
+      text-transform: uppercase;
+    }
+    .script-synopsis {
+      font-size: 1.16em;
+      line-height: 1.6;
+      color: #ededed;
+      text-align: left;
+      max-width: 670px;
+      margin-bottom: 12px;
+      letter-spacing: 0.01em;
+      word-break: break-word;
+    }
+    @media (max-width: 900px) {
+      .container { flex-direction: column; }
       .sidebar {
-        width: 100%;
-        height: 180px;
-        border-right: none;
-        border-bottom: 2px solid #db0000;
-        padding: 16px 12px;
-      }
-      .movie-list {
+        width: 100vw;
+        border-right: none; border-bottom: 2px solid #db0000;
         flex-direction: row;
-        display: flex;
-        overflow-x: auto;
-        margin-top: 8px;
+        min-height: 70px;
+        max-height: 150px;
+        overflow-x: auto; overflow-y: visible;
+        padding: 0;
       }
-      .movie-item {
-        flex: none;
-        margin-right: 12px;
-        border-radius: 8px;
-        border-left: none;
-        padding: 8px 16px;
-        font-size: 1em;
-      }
-      .content {
-        padding: 24px 20px;
-        overflow-y: visible;
-      }
-      .poster {
-        width: 220px;
-        height: 330px;
-        margin-bottom: 18px;
-      }
-      .content h1 {
-        font-size: 1.8em;
-        margin-bottom: 20px;
-      }
+      .sidebar h2 { font-size: 1.2em; margin: 16px 14px 10px 14px; }
+      .script-list { display: flex; flex-direction: row; overflow-x: auto; }
+      .script-item { min-width: 140px; padding: 14px 14px; font-size: 0.98em; border-radius: 8px; margin: 2px 7px 2px 2px; }
+      .main-content { padding: 30px 3vw; }
+      .script-poster { width: 98vw; max-width: 400px; }
+      .script-title { font-size: 1.15em; }
+      .script-genre { font-size: 0.97em }
+      .script-synopsis { font-size: 1em; }
     }
   </style>
 </head>
 <body>
+<div class="container">
   <nav class="sidebar">
     <h2>Scripts</h2>
-    <div class="movie-list" id="movieList">
-      <!-- Movie items dynamically inserted here -->
-    </div>
+    <div class="script-list" id="scriptList"></div>
   </nav>
-  <main class="content" id="contentPane">
-    <h1 id="movieTitle">Select a script</h1>
-    <img src="" id="moviePoster" class="poster" alt="Movie Poster" style="display: none;" />
-    <p id="movieDescription" class="description"></p>
-  </main>
-  <script>
-    // Updated list with all movies
-    const movies = [
-      {
-        title: "Maravar",
-        shortDescription: "A quick teaser or logline for Maravar.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Maravar..."
-      },
-      {
-        title: "Lost Day",
-        shortDescription: "A teaser hint for Lost Day.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Lost Day..."
-      },
-      {
-        title: "Case 10",
-        shortDescription: "A brief intrigue-filled teaser for Case 10.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Case 10..."
-      },
-      {
-        title: "Old Boy",
-        shortDescription: "A teaser hint for Old Boy.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Old Boy..."
-      },
-      {
-        title: "Abort Reboot Love",
-        shortDescription: "A short hint of romance and emotion.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Abort Reboot Love..."
-      },
-      {
-        title: "The Nocturnal",
-        shortDescription: "Placeholder teaser for The Nocturnal.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of The Nocturnal..."
-      },
-      {
-        title: "Agent Pradeep",
-        shortDescription: "Placeholder teaser for Agent Pradeep.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Agent Pradeep..."
-      },
-      {
-        title: "Father Siju",
-        shortDescription: "Placeholder teaser for Father Siju.",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Father Siju..."
-      },
-      {
-        title: "Roy (Dual)",
-        shortDescription: "Placeholder teaser for Roy (Dual).",
-        poster: "assets/poster_placeholder.jpg",
-        description: "[Placeholder] Detailed synopsis of Roy (Dual)..."
-      }
-    ];
-
-    const movieList = document.getElementById('movieList');
-    const movieTitle = document.getElementById('movieTitle');
-    const moviePoster = document.getElementById('moviePoster');
-    const movieDescription = document.getElementById('movieDescription');
-
-    function updateContent(index) {
-      const movie = movies[index];
-      movieTitle.textContent = movie.title;
-      moviePoster.src = movie.poster;
-      moviePoster.alt = movie.title + " Poster";
-      moviePoster.style.display = 'block';
-      movieDescription.textContent = movie.description;
-      document.querySelectorAll('.movie-item').forEach(el => el.classList.remove('selected'));
-      document.querySelectorAll('.movie-item')[index].classList.add('selected');
+  <main class="main-content" id="mainContent"></main>
+</div>
+<script>
+  const scripts = [
+    {
+      title: "Lost Day",
+      genre: "Thriller | Mystery",
+      synopsis: "Aamir walks into a hospital for a routine procedure — and wakes up in a different building, on a different day. September 21st has vanished. The police are looking for him, the news has named him a suspect, and there’s no trace of what happened while he was unconscious. As he races to piece together the missing 24 hours, Aamir finds himself caught in a web of doubt, danger, and deception. Lost Day is a taut, real-time thriller about memory, identity, and the terrifying cost of losing time you can’t get back.",
+      poster: "assets/lost day.jpg"
+    },
+    {
+      title: "The Nocturnal",
+      genre: "Political Drama | Psychological Mystery",
+      synopsis: "In a city that never sleeps, truth hides in plain sight. Aditya Rai is a young political figure on the rise — eloquent, composed, and publicly adored. But as the system around him twists deeper into illusion, a second self begins to take shape. Anonymous. Elusive. Watchful. With whispers of change echoing through newsrooms, temples, and streets alike, The Nocturnal is a slow-burning political drama about identity, power, and what remains when the spotlight fades. Sometimes, the only way to lead... is to vanish.",
+      poster: "assets/Noc.jpg"
+    },
+    {
+      title: "Agent Pradeep",
+      genre: "Spy Thriller | Dark Comedy",
+      synopsis: "Some agents disappear. Others are erased. Pradeep was never the sharpest spy — but he had instincts. And that was enough... until it wasn’t. Years after a failed mission, he’s living in silence, hiding from the world and himself. But secrets don’t stay buried, and when a new threat emerges, so does a name no one expected to hear again. Agent Pradeep is a dry-witted, grounded espionage tale about survival, second chances, and a man who might still be dangerous — mostly by accident.",
+      poster: "assets/Agent Pradeep.jpg"
+    },
+    {
+      title: "Father Siju",
+      genre: "Comedy Drama | Con Adventure",
+      synopsis: "When a rule-breaking priest rules, trouble takes holy orders. Assigned to a quiet seminary to reform his ways, Father Siju isn’t looking for purpose — just a way out. But when he meets Little Maria, a sharp and spirited women, sparks fly and so do a few rules. What begins as mischief soon spirals into something far more thrilling. Father Siju is a smart, witty ride about temptation, trust, and two unlikely partners in crime finding something worth believing in.",
+      poster: "assets/Father Siju.jpg"
+    },
+    {
+      title: "Abort. Reboot. Love.",
+      genre: "Urban Drama | Anti-Romance",
+      synopsis: "Tony and Sona weren’t supposed to know each other. A brief glance in a quiet room should have been the end of it. But the city keeps putting them in each other’s way — casually, inconveniently, relentlessly. With each encounter, the silence between them changes. Not quite strangers. Not quite something else. Abort. Reboot. Love. is a stripped-down, quietly charged story about timing, discomfort, and the slow, disjointed possibility of connection in a world that rarely gives closure.",
+      poster: "assets/ARL.jpg"
+    },
+    {
+      title: "Old Boy",
+      genre: "Action Comedy",
+      synopsis: "Decades after hanging up his guns, a once-feared hitman is pulled back in for one last mission — and it’s not exactly subtle. Slower, rustier, and a little too comfortable with retirement, he’s tasked with finding a kidnapped boy and keeping the body count low. The problem? He’s out of shape, out of practice... but somehow still the smartest man in the room. Old Boy is a sharp-tongued action comedy about a reluctant return, a missing kid, and a man trying to save the day without blowing it all up — literally.",
+      poster: "assets/Old Boy.jpg"
+    },
+    {
+      title: "Roy",
+      genre: "Psychological Thriller / Dark Comedy",
+      synopsis: "What if your past self refused to stay buried? Roy, a man trapped in an ordinary life, begins to experience disturbing flashes of a life he doesn’t remember — one filled with blood, orders, and a dangerous calm. As pieces of his fractured identity claw their way back, he must face a terrifying truth: he wasn’t always this Roy. A taut psychological thriller layered with dark humor, Roy explores identity, memory, and the cost of running from the person you used to be.",
+      poster: "assets/Roy.jpg"
     }
+  ];
 
-    function createMovieItem(movie, index) {
-      const div = document.createElement('div');
-      div.textContent = movie.title;
-      div.title = movie.shortDescription;
-      div.classList.add('movie-item');
-      div.tabIndex = 0;
-      div.addEventListener('click', () => updateContent(index));
-      div.addEventListener('keydown', e => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          updateContent(index);
-        }
-      });
-      return div;
-    }
+  function renderScript(index) {
+    const s = scripts[index];
+    document.getElementById('mainContent').innerHTML = `
+      <img class="script-poster" src="${s.poster}" alt="${s.title} poster" onerror="this.onerror=null;this.src='https://via.placeholder.com/320x480?text=No+Poster';">
+      <div class="script-title">${s.title}</div>
+      <div class="script-genre">${s.genre}</div>
+      <div class="script-synopsis">${s.synopsis}</div>
+    `;
+    document.querySelectorAll('.script-item').forEach((el, i) =>
+      el.classList.toggle('selected', i === index)
+    );
+  }
 
-    movies.forEach((movie, i) => {
-      movieList.appendChild(createMovieItem(movie, i));
+  // Sidebar list
+  const scriptList = document.getElementById('scriptList');
+  scripts.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'script-item';
+    btn.textContent = s.title;
+    btn.onclick = () => renderScript(i);
+    btn.tabIndex = 0;
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { renderScript(i); }
     });
+    scriptList.appendChild(btn);
+  });
 
-    // Initialize with first item selected
-    if(movies.length > 0) updateContent(0);
-  </script>
+  // Show first script by default
+  renderScript(0);
+</script>
 </body>
 </html>
