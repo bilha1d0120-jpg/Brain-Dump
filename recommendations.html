@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recommendations - Animated Grid with Infinite Scroll</title>
+  <style>
+    body {
+      background: #131313;
+      color: #fff;
+      font-family: Arial, 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-y: scroll;
+    }
+    h1 {
+      text-align: center;
+      margin: 48px 0 24px 0;
+      font-weight: 900;
+      color: #db0000;
+      font-size: 2.8em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px #db0000bb;
+    }
+    .grid {
+      max-width: 1120px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+      gap: 20px;
+    }
+    .grid-item {
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px #000b;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(50px);
+      animation-fill-mode: forwards;
+      transition: filter 0.2s ease;
+    }
+    .grid-item img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 2/3;
+      border-radius: 12px 12px 0 0;
+      transition: filter 0.2s ease;
+      filter: grayscale(20%) brightness(0.85);
+    }
+    .grid-item:hover img {
+      filter: grayscale(0) brightness(1);
+    }
+    .grid-item .title {
+      padding: 12px 10px 14px 10px;
+      font-weight: 700;
+      font-size: 1.1em;
+      text-align: center;
+      color: #db0000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 10px #db0000cc;
+    }
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .loader {
+      height: 50px;
+      max-width: 1120px;
+      margin: 0 auto 48px auto;
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.1em;
+      color: #db0000;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .loader.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+        margin: 28px 0 14px 0;
+      }
+      .grid {padding: 0 6px;}
+      .grid-item .title {font-size: 0.96em;}
+    }
+  </style>
+</head>
+<body>
+  <h1>His Recommendations</h1>
+  <div class="grid" id="gridContainer"></div>
+  <div class="loader" id="loader">Loading more...</div>
+<script>
+  // Example large list of recommendations - just update these as needed
+  const allRecommendations = [];
+  for(let i=1; i<=30; i++) {
+    allRecommendations.push({
+      title: `Movie ${i}`,
+      poster: 'https://via.placeholder.com/300x450?text=Movie+' + i,
+      link: '#'
+    });
+  }
+
+  const grid = document.getElementById('gridContainer');
+  const loader = document.getElementById('loader');
+  let itemsPerLoad = 9;
+  let currentIndex = 0;
+
+  function createGridItem(rec, index) {
+    const div = document.createElement('a');
+    div.className = 'grid-item';
+    div.href = rec.link || '#';
+    div.target = '_blank';
+    div.rel = 'noopener noreferrer';
+    div.innerHTML = `
+      <img src="${rec.poster}" alt="${rec.title} Poster" />
+      <div class="title">${rec.title}</div>
+    `;
+    div.style.animation = `fadeUp 0.5s ease forwards`;
+    div.style.animationDelay = (index * 0.08) + 's';
+    return div;
+  }
+
+  function loadMoreItems() {
+    if(currentIndex >= allRecommendations.length) {
+      loader.textContent = 'No more recommendations';
+      return;
+    }
+    loader.classList.add('active');
+    setTimeout(() => {
+      for(let i=0; i < itemsPerLoad && currentIndex < allRecommendations.length; i++) {
+        const item = createGridItem(allRecommendations[currentIndex], currentIndex);
+        grid.appendChild(item);
+        currentIndex++;
+      }
+      loader.classList.remove('active');
+      if(currentIndex >= allRecommendations.length) {
+        loader.textContent = 'You have reached the end!';
+      }
+    }, 700); // Simulated load delay
+  }
+
+  function onScroll() {
+    const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 80;
+    if(nearBottom && !loader.classList.contains('active')) {
+      loadMoreItems();
+    }
+  }
+
+  loadMoreItems();
+  window.addEventListener('scroll', onScroll);
+</script>
+</body>
+</html>
