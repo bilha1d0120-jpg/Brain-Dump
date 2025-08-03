@@ -72,6 +72,9 @@
       pointer-events: none;
       transition: background 0.16s;
     }
+    .rec-tile.youtube .rec-caption {
+      background: linear-gradient(0deg, #222a 80%, transparent 100%);
+    }
     .rec-tile:hover .rec-caption {
       background: linear-gradient(0deg, #db0000dd 80%, transparent 105%);
       color: #fff;
@@ -84,36 +87,55 @@
   </style>
 </head>
 <body>
-  <div class="page-title">His Recommendations</div>
-  <div class="collage" id="collageGrid"></div>
-  <script>
-    // Add your recommendations here
-    const recommendations = [
-      {
-        type: "movie",
-        title: "Padayappa",
-        poster: "assets/padayappa_poster.jpg", // Replace with actual poster in your assets folder
-        link: "https://www.primevideo.com/detail/Padaiyappa/0K1WHBU27GQBCIXOC33INK26B4"
-      }
-      // Add more...
-    ];
+<div class="page-title">His Recommendations</div>
+<div class="collage" id="collageGrid"></div>
+<script>
+  // The recommendation entries
+  const recommendations = [
+    {
+      type: "movie",
+      title: "Padayappa",
+      poster: "https://raw.githubusercontent.com/bilha1d0120-jpg/Brain-Dump/main/Padayappa.png",
+      link: "https://www.primevideo.com/detail/Padaiyappa/0K1WHBU27GQBCIXOC33INK26B4"
+    },
+    {
+      type: "youtube",
+      title: "Lokesh Kanagaraj Interview",
+      youtube: "https://www.youtube.com/watch?v=m78p7HxN68w"
+    }
+  ];
 
-    const placeholderPoster = "https://via.placeholder.com/300x450?text=No+Poster";
+  const placeholderPoster = "https://via.placeholder.com/300x450?text=No+Poster";
 
-    const collage = document.getElementById('collageGrid');
+  function getYoutubeThumbnail(url) {
+    const idMatch = url.match(/[?&]v=([^&]+)/);
+    return idMatch ? `https://i.ytimg.com/vi/${idMatch[1]}/hqdefault.jpg` : placeholderPoster;
+  }
 
-    recommendations.forEach(rec => {
-      const tile = document.createElement('a');
-      tile.className = 'rec-tile';
-      tile.target = '_blank';
-      tile.rel = 'noopener noreferrer';
+  const collage = document.getElementById('collageGrid');
+
+  recommendations.forEach(rec => {
+    const tile = document.createElement('a');
+    tile.className = 'rec-tile' + (rec.type === "youtube" ? ' youtube' : '');
+    tile.target = '_blank';
+    tile.rel = 'noopener noreferrer';
+
+    if (rec.type === "youtube") {
+      tile.href = rec.youtube;
+      tile.innerHTML = `
+        <img class="rec-poster" src="${getYoutubeThumbnail(rec.youtube)}" alt="${rec.title} Thumbnail" />
+        <div class="rec-caption">${rec.title}</div>
+      `;
+    } else {
       tile.href = rec.link || "#";
       tile.innerHTML = `
         <img class="rec-poster" src="${rec.poster || placeholderPoster}" alt="${rec.title} Poster" />
         <div class="rec-caption">${rec.title}</div>
       `;
-      collage.appendChild(tile);
-    });
-  </script>
+    }
+
+    collage.appendChild(tile);
+  });
+</script>
 </body>
 </html>
